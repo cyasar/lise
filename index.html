@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuantum Programlama Simülasyonu</title>
+    <link rel="icon" type="image/png" href="./image/logo_QTurkiye_beyaz.ai-2-scaled-e1766064048309.png">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="background-effects">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <nav class="sticky-nav">
+        <ul>
+            <li><a href="#classic-vs-quantum">1. Temeller</a></li>
+            <li><a href="#algorithm-logic">2. Paralellik</a></li>
+            <li><a href="#math-role">3. Vektör Kontrolü</a></li>
+            <li><a href="#simulation-vs-hardware">4. Gürültü ve Donanım</a></li>
+            <li><a href="#hybrid-approach">5. Hibrit Sistem</a></li>
+            <li><a href="#interactive-lab">6. PleyLab</a></li>
+            <li><a href="#operator-math">7. Matematik</a></li>
+            <li><a href="#space-growth">8. Uzay Hacmi</a></li>
+            <li><a href="#python-ide">9. Python Kodu</a></li>
+            <li><a href="#quantum-circuits">10. Devre Çizimleri</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <header class="main-header text-center" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <img src="./image/logo_QTurkiye_beyaz.ai-2-scaled-e1766064048309.png" alt="QTürkiye Logo" style="max-height: 100px; margin-bottom: 1.5rem; filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.5));">
+            <h4 style="color: var(--accent); font-weight: 600; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem;">
+                Lise Öğrencileri Kuantum Programlama Eğitimi
+            </h4>
+            <h1>Kuantum Programlama<br><span class="gradient-text">Etkileşimli Simülasyon</span></h1>
+        </header>
+
+        <section id="classic-vs-quantum" class="section-block">
+            <h2 class="section-title">1. Klasik vs. Kuantum (Temel Yapıtaşı)</h2>
+            <div class="grid-2">
+                <div class="card classic-bit">
+                    <h3>Klasik Bit</h3>
+                    <p>Günümüz bilgisayarlarının temeli. Bir an için yalnzca 0 ya da 1 durumunda olabilir.</p>
+                    <div class="bit-container" id="classic-bit-container">
+                        <div class="classic-bit-coin"><div class="front">0</div><div class="back">1</div></div>
+                    </div>
+                </div>
+                <div class="card quantum-bit">
+                    <h3>Qubit (Kuantum Bit)</h3>
+                    <p>Kuantum dünyasının yapıtaşı. Aynı anda hem 0 hem de 1 olma durumuna "Süperpozisyon" denir.</p>
+                    <div id="bloch-sphere-1" class="bloch-container"><div class="label-state label-top">|0⟩</div><div class="label-state label-bottom">|1⟩</div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="algorithm-logic" class="section-block">
+            <h2 class="section-title">2. Kuantum Algoritma Mantığı: Labirent (Arama)</h2>
+            <div class="card text-center">
+                <div class="info-panel mx-auto">
+                    <p><strong><i class="fas fa-magic"></i> Kavram:</strong> Kuantum programlama, olasılıkları yönetme sanatıdır.</p>
+                    <p><strong><i class="fas fa-code-branch"></i> Temel Fark:</strong> Karmaşık bir labirentin çıkışını ararken, klasik algoritmalar yolları tek tek dener (girdiği çıkmaz sokaklardan geri döner). Kuantum algoritma ise "süperpozisyon" dalgasıyla tüm olasılıkları aynı anda tarar ve saniyeler içinde doğrudan çıkışa çöker!</p>
+                </div>
+                <div class="controls mt-4">
+                    <button id="btn-classic-search" class="btn btn-outline">Klasik Yöntem (DFS - Sırayla)</button>
+                    <button id="btn-quantum-search" class="btn btn-primary">Kuantum Yöntemi (Süperpozisyon - Paralel)</button>
+                    <button id="btn-reset-search" class="btn btn-secondary">Labirenti Sıfırla / Yenile</button>
+                </div>
+                <!-- Maze Legend -->
+                <div class="mt-4 mb-2" style="display:flex; justify-content:center; gap: 1rem; font-size: 0.9rem;">
+                    <span style="display:flex; align-items:center; gap: 5px;"><div style="width:12px; height:12px; background:#f59e0b;"></div> Başlangıç</span>
+                    <span style="display:flex; align-items:center; gap: 5px;"><div style="width:12px; height:12px; background:var(--danger);"></div> Çıkış (Hedef)</span>
+                </div>
+                <div id="search-grid" class="search-grid"></div>
+            </div>
+        </section>
+
+        <section id="math-role" class="section-block">
+            <h2 class="section-title">3. Matematiğin Rolü: Vektörlerle Kontrol</h2>
+            <div class="grid-2 align-center">
+                <div class="card">
+                    <h3>Qubit'i Siz Yönetin (Matematiksel Rol)</h3>
+                    <div class="info-panel mt-4 mb-4">
+                        <p><strong><i class="fas fa-square-root-variable"></i> Matematik:</strong> Kuantum kapıları (Hadamard, X, Z vb.) lineer cebirdeki matris çarpımlarıdır. Kapıları deneyerek dönüşümleri görebilirsiniz.</p>
+                    </div>
+                    
+                    <div class="gate-controls mb-4">
+                        <h4 style="margin-bottom: 0.5rem; color: var(--text-muted);">Kuantum Kapıları (Matris İşlemleri)</h4>
+                        <div class="btn-group">
+                           <button id="btn-gate-x" class="btn btn-outline" title="NOT (X) Kapısı: Vektörü X ekseninde 180 derece döndürür">X Kapısı (NOT)</button>
+                           <button id="btn-gate-h" class="btn btn-outline" title="Hadamard (H) Kapısı: İki durum arasına alır (Süperpozisyon)">H Kapısı</button>
+                           <button id="btn-gate-z" class="btn btn-outline" title="Phase (Z) Kapısı: Ekvatorda 180 derece döndürür">Z Kapısı</button>
+                        </div>
+                    </div>
+                    
+                    <div class="slider-group mt-4">
+                        <label>Theta (θ) Kutuplar Açısı: <span id="val-theta">90</span>°</label>
+                        <input type="range" id="slider-theta" min="0" max="180" value="90">
+                    </div>
+                    <div class="slider-group mt-4">
+                        <label>Phi (φ) Ekvator Açısı: <span id="val-phi">0</span>°</label>
+                        <input type="range" id="slider-phi" min="0" max="360" value="0">
+                    </div>
+                    <div class="probabilities mt-4">
+                        <div class="prob-bar">
+                            <span class="prob-label">|0⟩ İhtimali:</span>
+                            <div class="progress-bg"><div class="progress-fill fill-zero" id="prob-zero"></div></div>
+                            <span id="text-zero" class="prob-value">50.0%</span>
+                        </div>
+                        <div class="prob-bar">
+                            <span class="prob-label">|1⟩ İhtimali:</span>
+                            <div class="progress-bg"><div class="progress-fill fill-one" id="prob-one"></div></div>
+                            <span id="text-one" class="prob-value">50.0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div id="bloch-sphere-2" class="bloch-container"><div class="label-state label-top">|0⟩</div><div class="label-state label-bottom">|1⟩</div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="simulation-vs-hardware" class="section-block">
+            <h2 class="section-title">4. Simülasyon vs. Gerçek Kuantum Bilgisayarlar</h2>
+            <div class="grid-2 align-center">
+                <div class="card">
+                    <div id="bloch-sphere-3" class="bloch-container"><div class="label-state label-top">|0⟩</div><div class="label-state label-bottom">|1⟩</div></div>
+                </div>
+                <div class="card">
+                    <h3>Gerçek Dünyada Hata Payı: Gürültü</h3>
+                    <div class="info-panel">
+                        <p><strong><i class="fas fa-laptop"></i> Simülasyon:</strong> Kendi bilgisayarınızda veya webde yaptığınız işlemler ideal (kusursuz) matematiksel sonuçlar verir.</p>
+                        <p><strong><i class="fas fa-microchip"></i> Gerçek Donanım:</strong> Gerçek kuantum çiplerinde çevresel etkiler hataya neden olur; simülasyondaki "gürültü" (noise) bu etkiyi temsil eder.</p>
+                    </div>
+                    <button id="btn-noise-toggle" class="btn btn-warning mt-4"><i class="fas fa-bolt"></i> Gürültüyü (Noise) Aç</button>
+                    <div id="noise-status" class="noise-status box text-center">Donanım Durumu: <span class="status-ideal">İdeal Ortam</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="hybrid-approach" class="section-block">
+            <h2 class="section-title text-center">5. Hibrit Quantum-Klasik Yaklaşım</h2>
+            <div class="info-panel mx-auto mb-4" style="max-width: 800px;">
+                <p class="text-center"><strong><i class="fas fa-handshake"></i> Yaklaşım:</strong> Geleceğin programlaması tamamen kuantum olmayacak. Zor işi kuantum yapacak, sonucu klasik logik yorumlayacaktır.</p>
+            </div>
+            <div class="hybrid-diagram">
+                <div class="diagram-node classic-node">
+                    <i class="fas fa-server"></i>
+                    <h4>Klasik Bilgisayar (CPU)</h4>
+                    <div class="tasks">
+                        <span class="task">Problem Tanımı</span>
+                        <span class="task">Parametre Optimizasyonu</span>
+                        <span class="task">Sonuç Analizi</span>
+                    </div>
+                </div>
+                <div class="diagram-arrows">
+                    <div class="arrow-path path-top"><div class="packet packet-right"></div><span class="path-label">Devre Parametreleri</span></div>
+                    <div class="arrow-path path-bottom"><div class="packet packet-left"></div><span class="path-label">Ölçüm Sonuçları</span></div>
+                </div>
+                <div class="diagram-node quantum-node">
+                    <i class="fas fa-atom"></i>
+                    <h4>Kuantum İşlemci (QPU)</h4>
+                    <div class="tasks">
+                        <span class="task">Devre Çalıştırma (Circuit)</span>
+                        <span class="task">Süperpozisyon & Dolanıklık</span>
+                        <span class="task">Ölçüm (Durum Çökmesi)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- 6. İnteraktif Laboratuvar (PleyLab) -->
+        <section id="interactive-lab" class="section-block">
+            <h2 class="section-title text-center">6. PleyLab: Etkileşimli Kuantum Laboratuvarı</h2>
+            <div class="grid-2">
+                <!-- Sol Taraf: Klasik -->
+                <div class="card">
+                    <h3 class="text-center text-primary">Klasik Mantık Kapıları</h3>
+                    <p class="text-center mb-4 mt-2">Klasik kapılar elektriği ya geçirir ya keser; sonuç kesinlikle 0 veya 1'dir.</p>
+                    
+                    <div class="logic-gate-box">
+                        <h4>NOT Kapısı (Değil)</h4>
+                        <div class="flex-center">
+                            <button id="not-in" class="btn btn-secondary logic-btn">0</button>
+                            <span class="logic-icon">→ <i class="fas fa-microchip"></i> →</span>
+                            <div id="not-out" class="bulb dark"><i class="fas fa-lightbulb"></i></div>
+                        </div>
+                    </div>
+
+                    <div class="logic-gate-box">
+                        <h4>AND Kapısı (Ve)</h4>
+                        <div class="flex-center">
+                            <div class="flex-column">
+                                <button id="and-in-1" class="btn btn-secondary logic-btn">0</button>
+                                <button id="and-in-2" class="btn btn-secondary logic-btn">0</button>
+                            </div>
+                            <span class="logic-icon">→ <i class="fas fa-plug"></i> →</span>
+                            <div id="and-out" class="bulb dark"><i class="fas fa-lightbulb"></i></div>
+                        </div>
+                    </div>
+
+                    <div class="logic-gate-box">
+                        <h4>OR Kapısı (Veya)</h4>
+                        <div class="flex-center">
+                            <div class="flex-column">
+                                <button id="or-in-1" class="btn btn-secondary logic-btn">0</button>
+                                <button id="or-in-2" class="btn btn-secondary logic-btn">0</button>
+                            </div>
+                            <span class="logic-icon">→ <i class="fas fa-network-wired"></i> →</span>
+                            <div id="or-out" class="bulb dark"><i class="fas fa-lightbulb"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sağ Taraf: Kuantum -->
+                <div class="card quantum-lab">
+                    <h3 class="text-center text-accent">Kuantum Operatörleri</h3>
+                    <p class="text-center mb-4 mt-2">Kuantum kapıları, vektörün yönünü değiştiren 'Lineer Operatörler'dir.</p>
+                    
+                    <div id="bloch-sphere-lab" class="bloch-container mb-4" style="height: 250px;">
+                        <div class="label-state label-top">|0⟩</div>
+                        <div class="label-state label-bottom">|1⟩</div>
+                    </div>
+
+                    <div class="btn-group mx-auto mb-2" style="justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+                        <button id="lab-btn-x" class="btn btn-primary" title="Pauli-X (NOT)">X</button>
+                        <button id="lab-btn-y" class="btn btn-primary" title="Pauli-Y">Y</button>
+                        <button id="lab-btn-z" class="btn btn-primary" title="Pauli-Z">Z</button>
+                        <button id="lab-btn-h" class="btn btn-primary" title="Hadamard">H</button>
+                        <div style="display:flex; border: 1px solid var(--info); border-radius: 4px;">
+                            <button id="lab-btn-cnot" class="btn btn-info" style="border-radius: 4px 0 0 4px; border:none; padding: 0.5rem;" title="CNOT Kapısı (Control-NOT)">CNOT</button>
+                            <button id="lab-control-btn" class="btn btn-secondary" style="border-radius: 0 4px 4px 0; border:none; border-left: 1px solid #111; padding: 0.5rem 0.8rem; font-size: 0.9rem;" title="1 ise devreye girer">Kntrl: 0</button>
+                        </div>
+                    </div>
+
+                    <div class="matrix-display text-center mb-4 mt-2 p-3" style="font-family: monospace; background: rgba(0,0,0,0.4); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                        <div style="color: var(--accent); margin-bottom: 8px; font-weight: bold; font-family: 'Outfit';">Matris Formu: <span id="matrix-title">-</span></div>
+                        <div id="matrix-val" style="line-height: 1.4; font-size: 1.1rem; letter-spacing: 2px;">
+                            [ &nbsp; &nbsp; ]<br>[ &nbsp; &nbsp; ]
+                        </div>
+                    </div>
+
+                    <div class="btn-group mx-auto" style="justify-content: center; gap: 0.5rem;">
+                        <button id="lab-btn-measure" class="btn btn-danger"><i class="fas fa-eye"></i> Ölçüm (Durum Çökmesi)</button>
+                    </div>
+
+                    <div class="vector-panel mt-4">
+                        <h4 class="text-center text-muted">Vektörel Gösterim (2D İzdüşüm)</h4>
+                        <div class="coordinate-system">
+                            <div class="axis-label label-0">|0⟩</div>
+                            <div class="axis-label label-1">|1⟩</div>
+                            <div class="axis-label label-sup-r">1/√2</div>
+                            <div class="axis-label label-sup-l">-1/√2</div>
+                            <div id="vector-arrow" class="vector-arrow"></div>
+                        </div>
+                        <div id="lab-result-text" class="text-center mt-2 font-weight-bold" style="min-height:24px; color: var(--accent);">Vektör: Kesin |0⟩ Durumu</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Operatör Matematiği -->
+        <section id="operator-math" class="section-block">
+            <h2 class="section-title text-center">7. Dirac Notasyonu ve Matris İşlemleri</h2>
+            <div class="card mx-auto" style="max-width: 900px;">
+                <h3 class="text-center text-primary mb-4">Adım Adım Operatör Çarpımları</h3>
+                <p class="text-center mb-4">Kuantum bilgisayarların kalbindeki matematiği, yani kuantum operatörlerinin (matrislerin) durum vektörleri (ket) üzerindeki etkisini aşağıdaki panellerden inceleyin. <br><em>(Lineer cebir işlemlerini kara tahtada adım adım görmek için bir butona tıklayın.)</em></p>
+                
+                <div class="btn-group mx-auto mb-4" style="justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn btn-outline" onclick="window.playMath('H0')">H |0⟩</button>
+                    <button class="btn btn-outline" onclick="window.playMath('H1')">H |1⟩</button>
+                    <button class="btn btn-outline" onclick="window.playMath('X0')">X |0⟩</button>
+                    <button class="btn btn-outline" onclick="window.playMath('X1')">X |1⟩</button>
+                    <button class="btn btn-outline" onclick="window.playMath('Hp')">H |+⟩</button>
+                    <button class="btn btn-outline" onclick="window.playMath('Y0')">Y |0⟩</button>
+                    <button class="btn btn-outline" onclick="window.playMath('Zp')">Z |+⟩</button>
+                    <button class="btn btn-outline" onclick="window.playMath('C10')">CNOT |10⟩</button>
+                </div>
+                
+                <div id="blackboard" class="blackboard p-4 text-left" style="background: #0f172a; border-radius: 8px; border: 2px solid #334155; min-height: 480px; font-family: 'Courier New', Courier, monospace; color: #10b981; font-size: 1.15rem; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; overflow-y: auto; position: relative; box-shadow: inset 0 0 30px rgba(0,0,0,0.8); line-height: 1.6;">
+                    <div style="margin: auto; color: #64748b; font-style: italic;">Kara tahtaya yazmak için bir denkleme tıklayın...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. Kartezyen vs Tensörel Uzay -->
+        <section id="space-growth" class="section-block">
+            <h2 class="section-title text-center">8. Veri Büyümesi: Kartezyen vs Tensörel Uzay</h2>
+            <p class="text-center mb-4">Klasik ve kuantum uzayların işlem kapasitelerinin nasıl farklı büyüdüğünü keşfedin.</p>
+            
+            <div class="grid-2">
+                <!-- Klasik Büyüme -->
+                <div class="card classic-lab text-center">
+                    <h3 class="text-primary mb-2">Klasik Veri Artışı (Kartezyen)</h3>
+                    <p class="mb-4 text-muted" style="font-size:0.95rem;"><strong>Etiket:</strong> Klasik Uzay: Veri toplama yoluyla artar (Lineer Büyüme).</p>
+                    
+                    <div class="controls mb-4">
+                        <button class="btn btn-secondary" onclick="window.addBit()"><i class="fas fa-plus"></i> Bit Ekle</button>
+                        <button class="btn btn-outline" onclick="window.resetBit()"><i class="fas fa-trash"></i> Sıfırla</button>
+                    </div>
+                    
+                    <h4>Toplam Bit: <span id="bit-count" class="text-primary">1</span> (İşlem Hacmi: <span id="bit-count-vol" class="text-primary">1</span> Kutu)</h4>
+                    <div id="classic-space-container" style="display:flex; flex-wrap:wrap; justify-content:center; gap: 8px; margin-top:2rem; min-height: 150px; align-content:flex-start;">
+                        <div class="classic-box">1</div>
+                    </div>
+                </div>
+
+                <!-- Kuantum Büyüme (Tensörel) -->
+                <div class="card quantum-lab text-center">
+                    <h3 class="text-accent mb-2">Kuantum Veri Artışı (Tensörel)</h3>
+                    <p class="mb-4 text-muted" style="font-size:0.95rem;"><strong>Etiket:</strong> Kuantum Uzayı: Veri çarpılarak artar (Üstel / Fraktal Büyüme).</p>
+                    
+                    <div class="controls mb-4">
+                        <button class="btn btn-primary" onclick="window.addQubit()"><i class="fas fa-plus"></i> Qubit Ekle</button>
+                        <button class="btn btn-outline" onclick="window.resetQubit()"><i class="fas fa-trash"></i> Sıfırla</button>
+                    </div>
+                    
+                    <h4>Toplam Qubit: <span id="qubit-count" class="text-accent">1</span> (İşlem Hacmi: <span id="qubit-state-count" class="text-accent">2</span> Düğüm)</h4>
+                    
+                    <div id="hypercube-canvas" style="position:relative; width:100%; height: 350px; margin-top:1rem; background: radial-gradient(circle, rgba(0,240,255,0.05) 0%, transparent 70%); border-radius: 8px;">
+                        <!-- Three.js Canvas will spawn here -->
+                    </div>
+
+                    <button class="btn btn-danger mt-4" style="width:100%" onclick="window.animateTensorOperator()"><i class="fas fa-bolt"></i> Kuantum Kapısı Uygula (Operatör İşlemi)</button>
+                    <p class="mt-2 text-muted" style="font-size:0.85rem;">Kuantum operatörleri tek bir kutuyu değil, tensör çarpımıyla oluşan tüm bu olasılık yumağını (boyutu) tek işlemde dönüştürür!</p>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. Python Kod Düzenleyici -->
+        <section id="python-ide" class="content-section">
+            <div class="section-header">
+                <h2>9. KOD YAZ VE QUBIT'İ DÖNDÜR (PYTHON ARAYÜZÜ)</h2>
+                <p>Kuantum algoritmaları genellikle Python (örn. Qiskit) gibi diller kullanılarak kodlanır. Kodun etkisini anında görebilmek için aşağıdaki basit oyun alanını kullanın.</p>
+                <div style="background: rgba(0, 240, 255, 0.1); border-left: 4px solid var(--primary); padding: 15px; border-radius: 4px; margin-top: 15px; text-align: left;">
+                    <strong>Gerçek Qiskit Kodu İndirildi!</strong> Öğrencilerinizle gerçek ortamda denemek için masaüstünüzdeki aynı klasöre gönderdiğiniz birebir aynı kodlarla <code>kuantum_qiskit_ornegi.py</code> dosyasını kaydettim.
+                </div>
+            </div>
+
+            <div class="grid-3" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-top: 2rem;">
+                
+                <!-- Sol Panel: Kod Düzenleyici -->
+                <div class="info-panel" style="background: #0f111a; border-left: 4px solid var(--accent); position: relative;">
+                    <h3 style="margin-bottom: 1rem; color: #a9b7c6; font-family: monospace;">
+                        <i class="fab fa-python" style="color: #4B8BBE;"></i> app.py
+                    </h3>
+                    <textarea id="python-editor" spellcheck="false" style="width: 100%; height: 180px; background: rgba(0,0,0,0.2); color: #d4d4d4; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 10px; font-size: 15px; font-family: Consolas, monospace; resize: none; outline: none; line-height: 1.5;">
+import quantum as q
+
+# Açı Değişkenleri (Radyan)
+theta = 1.57
+phi = 0.78
+
+# Durumu küreye uygula
+q.apply_state(theta, phi)
+                    </textarea>
+                    
+                    <div style="margin-top: 1rem; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 4px;">
+                        <label for="py-slider-theta" style="display:flex; justify-content:space-between; margin-bottom:5px; color:#fff; font-size:0.9rem;">
+                            <span>Theta (0 - π)</span> <span id="py-val-theta" class="text-primary">1.57</span>
+                        </label>
+                        <input type="range" id="py-slider-theta" min="0" max="3.14" step="0.01" value="1.57" style="width: 100%;">
+                        
+                        <label for="py-slider-phi" style="display:flex; justify-content:space-between; margin-bottom:5px; margin-top:10px; color:#fff; font-size:0.9rem;">
+                            <span>Phi (0 - 2π)</span> <span id="py-val-phi" class="text-danger">0.78</span>
+                        </label>
+                        <input type="range" id="py-slider-phi" min="0" max="6.28" step="0.01" value="0.78" style="width: 100%;">
+                    </div>
+
+                    <div style="display: flex; gap: 10px; margin-top: 1rem; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="window.runPythonCode()" style="flex:1;"><i class="fas fa-play"></i> Kodu Çalıştır</button>
+                        <button class="btn btn-secondary" onclick="window.applyPythonHadamard()" style="flex:1;">Hadamard (pi/2) Kapısı</button>
+                    </div>
+                </div>
+
+                <!-- Orta Panel: Dinamik Matematik -->
+                <div class="info-panel">
+                    <h3>Canlı Matematik Gösterimi</h3>
+                    <div style="margin-top: 1rem; font-size: 1.1rem; line-height: 2; text-align: center;">
+                        <span style="font-size:1.4rem; color: #a9b7c6;">|ψ⟩ = cos(θ/2) |0⟩ + e<sup>iφ</sup> sin(θ/2) |1⟩</span>
+                    </div>
+                    <div class="formula-box" style="margin-top: 1.5rem; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 5px; font-size: 1.2rem; font-family: monospace;">
+                        |ψ⟩ = cos(<span id="py-math-theta" class="text-primary">1.57</span>/2)|0⟩ <br>
+                        &nbsp;&nbsp;&nbsp;+ e^(i* <span id="py-math-phi" class="text-danger">0.78</span>) * sin(<span id="py-math-theta2" class="text-primary">1.57</span>/2)|1⟩
+                    </div>
+                    <div id="py-error-box" class="text-danger mt-3" style="font-weight: bold; display: none;">
+                        <i class="fas fa-exclamation-triangle"></i> Sözdizimi hatası! Lütfen sayılara dikkat edin.
+                    </div>
+                </div>
+
+                <!-- Sağ Panel: Qubit Çıktısı -->
+                <div class="info-panel" style="display: flex; flex-direction: column; align-items: center; overflow:hidden;">
+                    <h3>3D Bloch Küresi (Canlı Çıktı)</h3>
+                    <div id="bloch-sphere-python" style="width: 250px; height: 250px; margin-top: 1rem; position:relative;"></div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 10. Kuantum Devreleri (Qiskit Çıktısı) -->
+        <section id="quantum-circuits" class="content-section">
+            <div class="section-header">
+                <h2>10. GERÇEK KUANTUM DEVRELERİ ÇİZİMİ (QİSKİT)</h2>
+                <p>Bir kuantum bilgisayarını programlarken algoritmalar nota defteri gibi "Kuantum Devreleri" (Quantum Circuits) olarak şematize edilir. Az önce projenize yüklenen <code>kuantum_devre_kapilari.py</code> dosyasının kodlarını ve nasıl bir şema (terminal) ürettiğini aşağıdan canlı olarak inceleyebilirsiniz.</p>
+            </div>
+
+            <div class="grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem;">
+                
+                <!-- Sol Panel: Python Kod Görüntüleyici -->
+                <div class="info-panel" style="background: #0f111a; border-left: 4px solid var(--primary);">
+                    <h3 style="margin-bottom: 1rem; color: #a9b7c6; font-family: monospace;">
+                        <i class="fas fa-file-code" style="color: #4B8BBE;"></i> kuantum_devre_kapilari.py
+                    </h3>
+                    <pre style="background: rgba(0,0,0,0.3); color: #d4d4d4; padding: 15px; border-radius: 5px; font-family: Consolas, monospace; overflow-x: auto; font-size: 0.95rem; line-height: 1.4;">
+<span style="color: #c678dd;">from</span> qiskit <span style="color: #c678dd;">import</span> QuantumCircuit
+
+<span style="color: #5c6370;"># 4 Qubit içeren bir kuantum devresi başlat.</span>
+qc = QuantumCircuit(4)
+
+<span style="color: #5c6370;"># 0. tele Pauli-X (NOT) kapısı ekle</span>
+qc.x(0)
+qc.barrier()
+
+<span style="color: #5c6370;"># 1. tele Pauli-Y kapısı ekle</span>
+qc.y(1)
+qc.barrier()
+
+<span style="color: #5c6370;"># 2. tele Pauli-Z (Faz çevirici) kapısı ekle</span>
+qc.z(2)
+qc.barrier()
+
+<span style="color: #5c6370;"># 3. tele T (Pi/4 Dönüşü) kapısı ekle</span>
+qc.t(3)
+
+<span style="color: #5c6370;"># Devreyi konsola ASCII karakterleriyle çizdir</span>
+<span style="color: #56b6c2;">print</span>(qc.draw(output=<span style="color: #98c379;">'text'</span>))</pre>
+                </div>
+
+                <!-- Sağ Panel: Terminal Çıktısı -->
+                <div class="info-panel" style="background: #000; border-left: 4px solid #fff; border-radius: 5px;">
+                    <h3 style="margin-bottom: 1rem; color: #fff; font-family: monospace;">
+                        <i class="fas fa-terminal" style="color: #fff;"></i> Konsol Terminal Çıktısı 
+                    </h3>
+                    <p class="text-muted mb-3" style="font-size: 0.9rem;">Üstteki Python kodu çalıştırıldığında beliren sanal kuantum şeması:</p>
+                    <pre style="background: transparent; color: #00ff00; font-family: Consolas, 'Courier New', monospace; font-size: 1.05rem; line-height: 1.25; overflow-x: auto;">
+     ┌───┐ ░       ░       ░      
+q_0: ┤ X ├─░───────░───────░──────
+     └───┘ ░ ┌───┐ ░       ░      
+q_1: ──────░─┤ Y ├─░───────░──────
+           ░ └───┘ ░ ┌───┐ ░      
+q_2: ──────░───────░─┤ Z ├─░──────
+           ░       ░ └───┘ ░ ┌───┐
+q_3: ──────░───────░───────░─┤ T ├
+           ░       ░       ░ └───┘</pre>
+                   <div style="margin-top: 1.5rem; font-size: 0.85rem; color: #a9b7c6;">
+                       <strong>Not:</strong> Bu devre semaları notalara benzer. Qubitler (q_0, q_1...) soldan sağa doğru bir zaman çizelgesinde akarlar ve sırayla engellerden veya kapılardan geçerek işlem görürler.
+                   </div>
+                </div>
+
+            </div>
+
+            <!-- Quirk Sürükle Bırak Simülasyonu Yönlendirmesi -->
+            <div style="margin-top: 3rem; background: linear-gradient(135deg, rgba(75, 139, 190, 0.1) 0%, rgba(0, 240, 255, 0.15) 100%); border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 8px; padding: 2rem; text-align: center; box-shadow: 0 4px 15px rgba(0, 240, 255, 0.1);">
+                <h3 style="color: var(--accent); font-size: 1.8rem; margin-bottom: 1rem;">
+                    <i class="fas fa-sitemap"></i> ŞİMDİ SIRA SİZDE: Sürükle & Bırak ile Kendi Devrenizi Kurun!
+                </h3>
+                <p style="font-size: 1.1rem; line-height: 1.6; color: #d4d4d4; max-width: 800px; margin: 0 auto 1.5rem auto;">
+                    Sadece kod yazarak değil, dünyaca ünlü devasa Kuantum Simülatörlerini (Quirk ve Quantum Länd) kullanarak yukarıdaki kapıları fareyle sürükleyip bırakabilir, tellere dizebilir ve anlık olasılık matrislerini akışkan olarak izleyebilirsiniz. İstediğiniz simülatörü seçin:
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="https://algassert.com/quirk" target="_blank" class="btn btn-primary" style="font-size: 1.15rem; padding: 15px 25px; text-decoration: none;">
+                        <i class="fas fa-microchip"></i> Quirk Simülatörüne Git
+                    </a>
+                    <a href="https://thequantumlaend.de/quantum-circuit-designer/" target="_blank" class="btn btn-secondary" style="font-size: 1.15rem; padding: 15px 25px; text-decoration: none;">
+                        <i class="fas fa-project-diagram"></i> Quantum Circuit Designer
+                    </a>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer style="margin-top: 4rem; padding: 3rem 1rem; border-top: 1px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.4); text-align: center; font-family: 'Outfit', sans-serif;">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <p style="color: var(--accent); font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; letter-spacing: 1.5px; text-transform: uppercase;">
+                Hazırlayan
+            </p>
+            <h3 style="color: #fff; font-size: 2rem; margin-bottom: 0.8rem; font-weight: 800; letter-spacing: 1px;">
+                Dr. Cumali Yaşar
+            </h3>
+            <p style="color: #a9b7c6; font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.6;">
+                Çanakkale Onsekiz Mart Üniversitesi Enformatik Bölümü <br>
+                <span style="color: var(--primary); font-weight: 600;">QTürkiye Kuantum Programlama Eğitmeni</span>
+            </p>
+            <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
+                <a href="mailto:cumali.yasar@gmail.com" style="color: #d4d4d4; text-decoration: none; display: flex; align-items: center; gap: 8px; font-size: 1.1rem; transition: color 0.3s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#d4d4d4'">
+                    <i class="fas fa-envelope" style="color: var(--accent);"></i> cumali.yasar@gmail.com
+                </a>
+                <a href="mailto:cyasar@comu.edu.tr" style="color: #d4d4d4; text-decoration: none; display: flex; align-items: center; gap: 8px; font-size: 1.1rem; transition: color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='#d4d4d4'">
+                    <i class="fas fa-university" style="color: var(--primary);"></i> cyasar@comu.edu.tr
+                </a>
+                <a href="https://akademik.yok.gov.tr/AkademikArama/AkademisyenGorevOgrenimBilgileri?islem=direct&authorId=CE71439DB25BFC5E" target="_blank" style="color: #d4d4d4; text-decoration: none; display: flex; align-items: center; gap: 8px; font-size: 1.1rem; transition: color 0.3s;" onmouseover="this.style.color='#4B8BBE'" onmouseout="this.style.color='#d4d4d4'">
+                    <i class="fas fa-globe" style="color: #4B8BBE;"></i> YÖK Akademik Profil
+                </a>
+                <a href="https://www.linkedin.com/in/cyasar46/" target="_blank" style="color: #d4d4d4; text-decoration: none; display: flex; align-items: center; gap: 8px; font-size: 1.1rem; transition: color 0.3s;" onmouseover="this.style.color='#0a66c2'" onmouseout="this.style.color='#d4d4d4'">
+                    <i class="fab fa-linkedin" style="color: #0a66c2;"></i> LinkedIn
+                </a>
+            </div>
+            <div style="margin-top: 2rem; font-size: 0.9rem; color: rgba(255,255,255,0.3);">
+                &copy; 2024 Tüm Hakları Bilimin Gelişimine Aittir.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
